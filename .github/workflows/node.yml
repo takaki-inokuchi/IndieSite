@@ -2,7 +2,7 @@ name : Daily Node Script
 
 on:
   schedule:
-  - cron: '3 16 * * *' # 分 時 日 月 曜日 ←　毎日設定
+  - cron: '11 16 * * *' # 分 時 日 月 曜日 ←　毎日設定
   workflow_dispatch:
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: INstall dependencies
+      - name: Install dependencies
         run: npm ci
 
       - name: run Node server
