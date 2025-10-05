@@ -33,7 +33,7 @@ jobs:
       # 5. ビルド＆デプロ
       - name: Build and Deploy to Firebase
         run: |
-          npm run build
+          npm run buildgit
           firebase deploy --token $FIREBASE_TOKEN
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
