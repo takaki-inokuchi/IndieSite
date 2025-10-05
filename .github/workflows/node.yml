@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: action/checkout@4
+        uses: actions/checkout@4
 
       - name: setup Node.js
-        uses: action/setup-node@v4
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
