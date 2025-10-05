@@ -2,7 +2,7 @@ name : Daily Node Script
 
 on:
   schedule:
-  - cron: '0 15 * * *' # 分 時 日 月 曜日 ←　毎日設定
+  - cron: '3 16 * * *' # 分 時 日 月 曜日 ←　毎日設定
   workflow_dispatch:
 
 jobs:
@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@4
+        uses: actions/checkout@v4
 
       - name: setup Node.js
         uses: actions/setup-node@v4

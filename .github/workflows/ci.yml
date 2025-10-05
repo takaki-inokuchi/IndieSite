@@ -2,7 +2,7 @@ name: CI Deploy to Firebase Hosting
 
 on:
   schedule:
-    - cron: '0 16 * * *'
+    - cron: '6 16 * * *'
   workflow_dispatch:
 
 jobs:
