@@ -3,18 +3,16 @@ name: Firebase CI/CD Deploy
 on:
   push:
     branches:
-      - main  # main ブランチに push したら自動実行
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. リポジトリをチェックアウト
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Node.js をセットアップ
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -22,15 +20,12 @@ jobs:
           cache: "npm"
           cache-dependency-path: package-lock.json
 
-      # 3. 依存パッケージをインストール
       - name: Install dependencies
         run: npm ci
 
-      # 4. Firebase CLI をインストール
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
-      # 5. ビルド＆デプロ
       - name: Build and Deploy to Firebase
         run: |
           npm run buildgit
