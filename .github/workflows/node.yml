@@ -1,0 +1,26 @@
+name : Daily Node Script
+
+on:
+  schedule:
+  - cron: '0 15 * * *' # 分 時 日 月 曜日 ←　毎日設定
+  workflow_dispatch:
+
+jobs:
+  run-server:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: action/checkout@4
+
+      - name: setup Node.js
+        uses: action/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: INstall dependencies
+        run: npm ci
+
+      - name: run Node server
+        run: node src/server/server.mjs
