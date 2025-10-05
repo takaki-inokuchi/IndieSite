@@ -1,4 +1,44 @@
-name: build and deploy
+# name: build and deploy
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build and deploy:
+#     runs-on: ubuntu-latest # 自動で立ち上がる
+
+#     steps: # 処理リスト↓
+#       - uses: actions/checkout@v4 # gitへチェックアウト
+#         with:
+#           fetch-depth: 0 # 履歴を含めチェックアウト
+
+#       - uses: actions/setup-node@v4 # nodeをセットアップする
+#         with:
+#           node-version: "20" # nodeのversionを指定
+#           cache: "npm" # npmのキャッシュを有効
+#           cache-dependency-path: package-lock.json #cacheを残しておく仕組み→変更がなければ、以前のキャッシュを使用
+
+#       - name: Install dependencies
+#         run: npm ci #ci用のコマンド package-lock.jsonを使用し完全に削除したkらインストールする
+
+#       - name: Install Firebase CLI
+#         run: npm install -g firebase-tools
+        
+
+#       - name: Build and deploy
+#         run: make deploy
+#         env: # Actions のステップで env を使って渡す
+#           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }} # ← ここでSecretsからトークンを渡す
+
+#       - name: Upload build artifact
+#         uses: actions/upload-artifact@v4 #uploadを使用するという意味　actionsへ
+#         with:
+#           name: dist
+#           path: ./dist #アップロード
+
+name: CI Test & Deploy
 
 on:
   push:
@@ -6,34 +46,27 @@ on:
       - main
 
 jobs:
-  build and deploy:
-    runs-on: ubuntu-latest # 自動で立ち上がる
+  test-deploy:
+    runs-on: ubuntu-latest
 
-    steps: # 処理リスト↓
-      - uses: actions/checkout@v4 # gitへチェックアウト
-        with:
-          fetch-depth: 0 # 履歴を含めチェックアウト
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v4 # nodeをセットアップする
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: "20" # nodeのversionを指定
-          cache: "npm" # npmのキャッシュを有効
-          cache-dependency-path: package-lock.json #cacheを残しておく仕組み→変更がなければ、以前のキャッシュを使用
+          node-version: 20
+          cache: "npm"
 
       - name: Install dependencies
-        run: npm ci #ci用のコマンド package-lock.jsonを使用し完全に削除したkらインストールする
+        run: npm ci
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
-        
 
-      - name: Build and deploy
-        run: make deploy
-        env: # Actions のステップで env を使って渡す
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }} # ← ここでSecretsからトークンを渡す
+      - name: Run Makefile test-deploy
+        run: make test-deploy
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4 #uploadを使用するという意味　actionsへ
-        with:
-          name: dist
-          path: ./dist #アップロード
