@@ -28,6 +28,11 @@ jobs:
       - name: Build and deploy
         run: make deploy
 
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+        env: # Actions のステップで env を使って渡す
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }} # ← ここでSecretsからトークンを渡す
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4 #uploadを使用するという意味　actionsへ
         with:
