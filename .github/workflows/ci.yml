@@ -31,9 +31,9 @@ jobs:
 
       # 5. Firebase Hosting デプロイ（公式 Action）
       - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v1
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"       # GitHub が自動で作るトークン
-          firebaseServiceAccount: "${{ secrets.FIREBASE_KEY }}" # サービスアカウント JSON
-          projectId: "indiegame-hub"                    # Firebase プロジェクトID
-          channelId: "live"                             # live チャンネルにデプロイ
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_KEY }}"
+          projectId: "indiegame-hub"
+          channelId: "live"
