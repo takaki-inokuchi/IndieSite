@@ -33,12 +33,12 @@ jobs:
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
-      # 6. サービスアカウント認証設定
+      # 6. Firebase サービスアカウント鍵を作成
       - name: Setup Firebase credentials
-        run: |
-          echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}' > $HOME/firebase-key.json
-          export GOOGLE_APPLICATION_CREDENTIALS="$HOME/firebase-key.json"
+        run: echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}" > $HOME/firebase-key.json
 
       # 7. Firebase Hosting デプロイ
       - name: Deploy to Firebase Hosting
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-key.json
         run: npx firebase deploy --only hosting --project indiegame-hub
