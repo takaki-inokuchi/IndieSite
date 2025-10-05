@@ -2,75 +2,95 @@ import fs from "fs";
 import axios from "axios";
 import { load } from "cheerio";
 
-const BASE_URL =
+// --- 対象URL（タグ492 = Indie） ---
+const POPULAR_URL =
   "https://store.steampowered.com/search/?supportedlang=japanese&os=win&tags=492&page=";
+const NEW_URL =
+  "https://store.steampowered.com/search/?sort_by=Released_DESC&supportedlang=japanese&tags=492&os=win&page=";
 
+// --- JSON保存 ---
 function saveJSON(data, path) {
   fs.writeFileSync(path, JSON.stringify(data, null, 2));
+  console.log(`✅ 保存完了: ${path}`);
 }
 
-// 検索結果ページから AppID を取得
-async function fetchIndiePageAppIDs(page = 1) {
+// --- 検索結果ページから AppID と URL を取得 ---
+async function fetchPageAppIDs(baseUrl, page = 1) {
   try {
-    const res = await axios.get(BASE_URL + page, {
+    const res = await axios.get(baseUrl + page, {
       headers: { "User-Agent": "Mozilla/5.0" },
     });
     const $ = load(res.data);
-    const appIDs = [];
+    const appInfos = [];
+
     $(".search_result_row").each((i, el) => {
       const href = $(el).attr("href");
       if (!href) return;
-      const match = href.match(/\/app\/(\d+)\//);
-      if (match) appIDs.push(parseInt(match[1]));
+
+      // /app/xxxxx/ または /app/xxxxx_name/ の形式
+      const match = href.match(/\/app\/(\d+)/);
+      if (match) {
+        appInfos.push({
+          appid: parseInt(match[1]),
+          url: href.split("?")[0], // URLをそのまま保持（?パラメータ除去）
+        });
+      }
     });
-    return appIDs;
+
+    return appInfos;
   } catch (err) {
-    console.error(`ページ ${page} AppID 取得エラー:`, err.message);
+    console.error(`❌ ページ ${page} AppID 取得エラー:`, err.message);
     return [];
   }
 }
 
-// AppID から詳細情報を取得
-async function fetchGameDetails(appid) {
+// --- AppID から詳細情報を取得 ---
+async function fetchGameDetails(appInfo) {
+  const { appid, url } = appInfo;
   try {
     const res = await axios.get(
       `https://store.steampowered.com/api/appdetails?appids=${appid}&l=japanese`,
       { headers: { "User-Agent": "Mozilla/5.0" } }
     );
-    const data = res.data[appid].data;
+
+    const data = res.data[appid]?.data;
     if (!data) return null;
 
     return {
       appid,
-      name: data.name,
+      url,
+      name: data.name || "",
       developers: data.developers || [],
+      publishers: data.publishers || [],
       release_date: data.release_date?.date || "",
       header_image: data.header_image || "",
+      short_description: data.short_description || "",
+      genres: data.genres ? data.genres.map((g) => g.description) : [],
       screenshots: data.screenshots
         ? data.screenshots.map((s) => s.path_full)
         : [],
-      short_description: data.short_description || "",
     };
   } catch (err) {
-    console.error(`AppID ${appid} 取得エラー:`, err.message);
+    console.error(`❌ AppID ${appid} 詳細取得エラー:`, err.message);
     return null;
   }
 }
 
-// 100件まで取得
-async function fetchTop100Indie() {
+// --- 最大100件まで取得 ---
+async function fetchTop100(baseUrl, label) {
   const allGames = [];
   let page = 1;
-  while (allGames.length < 100) {
-    console.log(`検索ページ ${page} 取得中...`);
-    const appIDs = await fetchIndiePageAppIDs(page);
-    if (!appIDs || appIDs.length === 0) break;
 
-    for (const appid of appIDs) {
+  while (allGames.length < 100) {
+    console.log(`📄 ${label} ページ ${page} 取得中...`);
+    const appInfos = await fetchPageAppIDs(baseUrl, page);
+    if (!appInfos.length) break;
+
+    for (const appInfo of appInfos) {
       if (allGames.length >= 100) break;
-      const details = await fetchGameDetails(appid);
+      const details = await fetchGameDetails(appInfo);
       if (details) allGames.push(details);
-      await new Promise((r) => setTimeout(r, 200)); // 過負荷防止
+      await new Promise((r) => setTimeout(r, 200)); // 負荷軽減
     }
 
     page++;
@@ -79,36 +99,19 @@ async function fetchTop100Indie() {
   return allGames.slice(0, 100);
 }
 
-// ソート関数
-function rankGames(games, sortBy = "new") {
-  const sorted = [...games];
-  if (sortBy === "new") {
-    sorted.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
-  } else if (sortBy === "popular") {
-    sorted.sort(
-      (a, b) => (b.screenshots.length || 0) - (a.screenshots.length || 0)
-    ); // 仮に人気判定
-  }
-  return sorted;
-}
-
-// メイン
+// --- メイン処理 ---
 async function main() {
-  console.log("Steamトップセラー（Indieタグ）取得中...");
-  const indieGames = await fetchTop100Indie();
-  console.log(`取得件数: ${indieGames.length}`);
-
-  // 新作順
-  const rankedNew = rankGames(indieGames, "new");
-  saveJSON(rankedNew, "./public/indieRanking_new.json");
+  console.log("🚀 Steam インディーゲーム データ取得開始...");
 
   // 人気順
-  const rankedPopular = rankGames(indieGames, "popular");
-  saveJSON(rankedPopular, "./public/indieRanking_popular.json");
+  const popularGames = await fetchTop100(POPULAR_URL, "人気順");
+  saveJSON(popularGames, "./public/indieRanking_popular.json");
 
-  console.log(
-    "保存完了: ./public/indieRanking_new.json, ./public/indieRanking_popular.json"
-  );
+  // 新着順
+  const newGames = await fetchTop100(NEW_URL, "新着順");
+  saveJSON(newGames, "./public/indieRanking_new.json");
+
+  console.log("🎉 全データ取得完了！");
 }
 
 main();

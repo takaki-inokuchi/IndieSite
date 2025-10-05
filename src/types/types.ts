@@ -7,4 +7,5 @@ header_image: string;
 screenshots: string[];
 short_description: string;
 owners?: number;
+url:string;
 }
