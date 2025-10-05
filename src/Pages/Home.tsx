@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
-// タブタイプ
 type Tab = "new" | "popular";
 
 // JSON に既に順番があるのでランク付けは不要

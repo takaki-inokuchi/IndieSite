@@ -1,0 +1,35 @@
+name: build and deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build and deploy:
+    runs-on: ubuntu-latest # 自動で立ち上がる
+    steps: # 処理リスト↓
+      - uses: actions/checkout@v4 # gitへチェックアウト
+        with:
+          fetch-depth: 0 # 履歴を含めチェックアウト
+
+      - uses: actions/setup-node@v4 # nodeをセットアップする
+        with:
+          node-version: "20"
+          # nodeのversionを指定
+          cache: "npm"
+          # npmのキャッシュを有効
+          cache-dependency-path: package-lock.json
+          #cacheを残しておく仕組み→変更がなければ、以前のキャッシュを使用
+
+      - name: Install dependencies
+        run: npm ci #ci用のコマンド　package-lock.jsonを使用し完全に削除したkらインストールする
+
+      - name: Build and deploy
+        run: make deploy
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4 #uploadを使用するという意味　actionsへ
+        with:
+          name: dist
+          path: ./dist #アップロード
