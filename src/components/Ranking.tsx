@@ -10,6 +10,7 @@ export const GameCard: React.FC<Props> = ({ game, rank }) => {
   return (
     <Link href={game.url} isExternal>
       <Box
+        h="100%"
         borderWidth="1px"
         borderRadius="lg"
         overflow="hidden"
