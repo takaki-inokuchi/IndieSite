@@ -27,7 +27,9 @@ beforeEach(() => {
 test("新作順タブのゲームを表示", async () => {
   render(<Home />);
 
-  expect(await screen.findByRole("heading", { name: "新着順" })).toBeInTheDocument();
+  expect(
+    await screen.findByRole("heading", { name: "新着順" })
+  ).toBeInTheDocument();
 
   expect(await screen.findByText("GameA")).toBeInTheDocument();
 });
@@ -35,10 +37,15 @@ test("新作順タブのゲームを表示", async () => {
 test("人気順タブのゲームを表示", async () => {
   render(<Home />);
 
-  const popularTab = screen.getByRole("menuitem", { name: "人気順" });
-  fireEvent.click(popularTab);
+  const menuButton = screen.getByRole("button", { name: "新作順" });
+  fireEvent.click(menuButton);
 
-  expect(await screen.findByRole("heading", { name: "Indieゲームランキング" })).toBeInTheDocument();
+  expect(
+    await screen.findByRole("heading", { name: "Indieゲームランキング" })
+  ).toBeInTheDocument();
 
   expect(await screen.findByText("GameB")).toBeInTheDocument();
+
+  const popularTab = screen.getByRole("menuitem", { name: "人気順" });
+  fireEvent.click(popularTab);
 });
