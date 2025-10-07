@@ -38,8 +38,8 @@ export const Home: React.FC = () => {
           rank: i + 1,
         }));
         setter(rankedData);
-      } catch (err: any) {
-        if (err.name !== "AbortError") console.error(err);
+      } catch (err: unknown) {
+        if (err instanceof Error && err.name !== "Error") console.error(err);
       }
     };
 

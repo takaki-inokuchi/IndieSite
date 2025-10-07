@@ -14,11 +14,14 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "../lib/supabaseClient";
+import type { User } from "@supabase/supabase-js";
 
 export const Header = () => {
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [user, setUser] = useState<User | null>(null);
 
   // スクロールでヘッダーを隠す処理
   useEffect(() => {
@@ -36,6 +39,36 @@ export const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+    };
+    getUser();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    if (error) console.error("Login Error", error);
+  };
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) console.log("Logout Error", error);
+  };
 
   return (
     <Box
@@ -65,9 +98,32 @@ export const Header = () => {
           <Link to="/about">
             <Button colorScheme="white">サイトについて</Button>
           </Link>
-          <Link to="/login">
-            <Button colorScheme="white">ログイン</Button>
-          </Link>
+          <div>
+            {user ? (
+              <>
+                <Button
+                  _hover={{ bg: "teal.700" }}
+                  colorScheme="teal.400"
+                  onClick={async () => await supabase.auth.signOut()}
+                >
+                  ログイン中
+                </Button>
+              </>
+            ) : (
+              <Button
+                _hover={{ bg: "teal.700" }}
+                colorScheme="white"
+                onClick={async () => {
+                  const { error } = await supabase.auth.signInWithOAuth({
+                    provider: "google",
+                  });
+                  if (error) console.error("Login Error", error);
+                }}
+              >
+                ログイン
+              </Button>
+            )}
+          </div>
         </Flex>
 
         {/* スマホ用ハンバーガー */}
@@ -92,9 +148,30 @@ export const Header = () => {
                 <Link to="/about" onClick={onClose}>
                   <Button colorScheme="teal">サイトについて</Button>
                 </Link>
-                <Link to="/login" onClick={onClose}>
-                  <Button colorScheme="teal">ログイン</Button>
-                </Link>
+                <div>
+                  {user ? (
+                    <>
+                      <Button
+                        _hover={{ bg: "teal.700" }}
+                        colorScheme="teal.400"
+                        onClick={handleLogout}
+                      >
+                        ログイン中
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      _hover={{ bg: "teal.700" }}
+                      colorScheme="teal"
+                      onClick={() => {
+                        handleLogin();
+                        onClose();
+                      }}
+                    >
+                      ログイン
+                    </Button>
+                  )}
+                </div>
               </Flex>
             </DrawerBody>
           </DrawerContent>
