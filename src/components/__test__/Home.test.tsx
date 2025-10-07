@@ -8,7 +8,7 @@ const mookNewgames = [
 ];
 
 const populargames = [
-  { appid: 1, name: "GameA", developers: ["Dev"], rank: 1 },
+  { appid: 1, name: "GameB", developers: ["Dev"], rank: 1 },
 ];
 
 beforeEach(() => {
@@ -28,7 +28,7 @@ beforeEach(() => {
 test("新作順ゲームを表示", async () => {
   render(<Home />);
   await waitFor(() => {
-    expect(screen.getByText("GamgeA")).toBeInTheDocument();
+    expect(screen.getByText("GameA")).toBeInTheDocument();
   });
 });
 
