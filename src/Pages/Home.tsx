@@ -39,7 +39,9 @@ export const Home: React.FC = () => {
         }));
         setter(rankedData);
       } catch (err: unknown) {
-        if (err instanceof Error && err.name !== "Error") console.error(err);
+        if ((err as Error).name !== "AbortError") {
+          console.log(err);
+        }
       }
     };
 
@@ -85,8 +87,12 @@ export const Home: React.FC = () => {
       {/* 新作順 */}
       {tab === "new" && (
         <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={4} w="100%">
-          {newGames.map((game) => (
-            <GameCard key={game.appid} game={game} rank={game.rank} />
+          {newGames.map((game, index) => (
+            <GameCard
+              key={`${game.appid}-${index}`}
+              game={game}
+              rank={game.rank}
+            />
           ))}
         </SimpleGrid>
       )}
@@ -94,8 +100,12 @@ export const Home: React.FC = () => {
       {/* 人気順 */}
       {tab === "popular" && (
         <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={4} w="100%">
-          {popularGames.map((game) => (
-            <GameCard key={game.appid} game={game} rank={game.rank} />
+          {popularGames.map((game, index) => (
+            <GameCard
+              key={`${game.appid}-${index}`}
+              game={game}
+              rank={game.rank}
+            />
           ))}
         </SimpleGrid>
       )}
