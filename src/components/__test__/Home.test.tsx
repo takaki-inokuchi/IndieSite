@@ -40,12 +40,12 @@ test("人気順タブのゲームを表示", async () => {
   const menuButton = screen.getByRole("button", { name: "新作順" });
   fireEvent.click(menuButton);
 
+  const popularTab = screen.getByRole("menuitem", { name: "人気順" });
+  fireEvent.click(popularTab);
+
   expect(
     await screen.findByRole("heading", { name: "Indieゲームランキング" })
   ).toBeInTheDocument();
 
   expect(await screen.findByText("GameB")).toBeInTheDocument();
-
-  const popularTab = screen.getByRole("menuitem", { name: "人気順" });
-  fireEvent.click(popularTab);
 });
