@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Home } from "../../Pages/Home";
 
 globalThis.fetch = jest.fn();
@@ -37,11 +38,11 @@ test("新作順タブのゲームを表示", async () => {
 test("人気順タブのゲームを表示", async () => {
   render(<Home />);
 
-  const menuButton = screen.getByRole("button", { name: "新作順" });
-  fireEvent.click(menuButton);
+  const menuButton = await screen.findByRole("button", { name: "新作順" });
+  await userEvent.click(menuButton);
 
-  const popularTab = screen.getByRole("menuitem", { name: "人気順" });
-  fireEvent.click(popularTab);
+  const popularTab = await screen.findByRole("menuitem", { name: "人気順" });
+  await userEvent.click(popularTab);
 
   expect(
     await screen.findByRole("heading", { name: "Indieゲームランキング" })
