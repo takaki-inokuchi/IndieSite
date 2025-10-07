@@ -23,18 +23,12 @@ beforeEach(() => {
   });
 });
 
-
-
 test("新作順ゲームを表示", async () => {
   render(<Home />);
-  await waitFor(() => {
-    expect(screen.getByText("GameA")).toBeInTheDocument();
-  });
+  expect(await screen.findByText("GameA")).toBeInTheDocument();
 });
 
 test("人気順を表示", async () => {
   render(<Home />);
-  await waitFor(() => {
-    expect(screen.getByText("GameB")).toBeInTheDocument();
-  });
+  expect(await screen.findByText("GameB")).toBeInTheDocument();
 });
