@@ -1,39 +1,29 @@
-name: CI Deploy to Firebase Hosting
+name: CI
 
 on:
-  schedule:
-    - cron: '12 16 * * *'
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  deploy:
+  test-and-build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. リポジトリをチェックアウト
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      # 2. Node.js セットアップ
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: npm
+          cache: "npm"
 
-      # 3. 依存関係インストール
       - name: Install dependencies
         run: npm ci
 
-      # 4. ビルド
+      - name: Run tests
+        run: npm run test
+
       - name: Build project
         run: npm run build
-
-      # 5. Firebase Hosting デプロイ（公式 Action）
-      - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_KEY }}"
-          projectId: "indiegame-hub"
-          channelId: "live"
