@@ -15,13 +15,11 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 type Tab = "new" | "popular";
 
-// JSON に既に順番があるのでランク付けは不要
 type RankedIndieGame = IndieGame & { rank: number };
 
 export const Home: React.FC = () => {
   const [tab, setTab] = useState<Tab>("new");
 
-  // 新作順と人気順を別々に保持
   const [newGames, setNewGames] = useState<RankedIndieGame[]>([]);
   const [popularGames, setPopularGames] = useState<RankedIndieGame[]>([]);
 
@@ -67,7 +65,6 @@ export const Home: React.FC = () => {
         </Heading>
       )}
 
-      {/* タブ切り替え */}
       <Menu>
         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
           {currentLabel}
