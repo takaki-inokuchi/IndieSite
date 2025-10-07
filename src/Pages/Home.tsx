@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { IndieGame } from "../types/types";
-import { GameCard } from "../components/Ranking";
+import { GameCard } from "../components/GameCard";
 import {
   Button,
   Container,
