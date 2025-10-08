@@ -82,7 +82,6 @@ export const Header = () => {
       transition="top 0.5s ease"
     >
       <Flex justify="space-between" align="center">
-
         <Heading as="h1" size={{ base: "md", md: "xl" }}>
           <Link to="/">IndieGameSite</Link>
         </Heading>
@@ -92,11 +91,14 @@ export const Header = () => {
           <Link to="/">
             <Button colorScheme="white">ホーム</Button>
           </Link>
-          <Link to="/about">
-            <Button colorScheme="white">サイトについて</Button>
-          </Link>
           <Link to="/LoginPage">
             <Button colorScheme="white">ログイン</Button>
+          </Link>
+          <Link to="/">
+            <Button colorScheme="white">投票</Button>
+          </Link>
+          <Link to="/BoardPage">
+            <Button colorScheme="white">掲示板</Button>
           </Link>
         </Flex>
 
@@ -119,11 +121,14 @@ export const Header = () => {
                 <Link to="/" onClick={onClose}>
                   <Button colorScheme="teal">ホーム</Button>
                 </Link>
-                <Link to="/about" onClick={onClose}>
-                  <Button colorScheme="teal">サイトについて</Button>
-                </Link>
                 <Link to="/LoginPage" onClick={onClose}>
                   <Button colorScheme="teal">ログイン</Button>
+                </Link>
+                <Link to="/" onClick={onClose}>
+                  <Button colorScheme="teal">投票</Button>
+                </Link>
+                <Link to="/BoardPage" onClick={onClose}>
+                  <Button colorScheme="teal">掲示板</Button>
                 </Link>
               </Flex>
             </DrawerBody>

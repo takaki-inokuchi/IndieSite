@@ -1,4 +1,4 @@
-import { Flex, Grid, Button, Heading } from "@chakra-ui/react";
+import { Flex, Grid, Button, Heading, VStack } from "@chakra-ui/react";
 import {
   FaGoogle,
   FaGithub,
@@ -10,13 +10,14 @@ import {
 
 export const LoginPage = () => {
   return (
-    <Flex
-      w="100vw"
-      h="90vh"
-      justifyContent="center"
-      alignItems="center"
-      bg="gray.50"
-      direction="column"
+    <VStack
+      maxW="600px"
+      h="75vh"
+      mx="auto"
+      bg="white"
+      p={6}
+      borderRadius="lg"
+      shadow="md"
     >
       {/* タイトル */}
       <Heading as="h1" size="2xl" p={4} color="teal.700" textAlign="center">
@@ -84,6 +85,6 @@ export const LoginPage = () => {
           </Button>
         </Grid>
       </Flex>
-    </Flex>
+    </VStack>
   );
 };

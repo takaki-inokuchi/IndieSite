@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "../Pages/Home";
 import { DefaultLayout } from "../templates/DefaultLayout";
 import { LoginPage } from "../Pages/LoginPage";
+import { BoardPage } from "../Pages/BoardPage";
 
 export const Router = () => {
   return (
@@ -10,6 +11,7 @@ export const Router = () => {
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/LoginPage" element={<LoginPage />} />
+          <Route path="/BoardPage" element={<BoardPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
