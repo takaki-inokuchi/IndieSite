@@ -1,73 +1,45 @@
-# React + TypeScript + Vite
+# IndieSite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+IndieGame Hubは、インディーズゲームを紹介・共有するウェブアプリです。
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 目次
 
-## React Compiler
+1.[デモ](#デモ)
+2.[主な機能](#主な機能)
+3.[使用技術](#使用技術)
+4.[環境構築](#環境構築)
+5.[必要条件](#必要条件)
+6.[手順](#手順)
+6.[アプリデモ](#アプリデモ)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+## デモ
+本番サイト: [https://indiegame-hub.web.app/](https://indiegame-hub.web.app/)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 機能
+- インディーズゲームのランキング毎日更新
+- ゲーム一覧の表示 (人気順・新規順)
+- Firebase Authentivationによるログイン
+- Firebase Firebase Hosting での公開
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 使用技術
+- **フロントエンド**: React, Vite, Chakra UI
+- **バックエンド / データベース**: supabase
+- **バッチ処理**: Node.js, ts-node
+- **CI/CD / 自動化**: GitHub Actions
+- **言語**: JavaScript / TypeScript
+- **テスト**: Jest, React Testing Library
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 環境構築
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 必要条件
+- Node.js 20+
+- npm 8+
+- Firebase CLI
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 手順
+1. リポジトリをクローン
+```bash
+git clone https://github.com/takaki-inokuchi/IndieSite.git
+cd IndieSite
