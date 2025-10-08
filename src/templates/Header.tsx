@@ -98,32 +98,9 @@ export const Header = () => {
           <Link to="/about">
             <Button colorScheme="white">サイトについて</Button>
           </Link>
-          <div>
-            {user ? (
-              <>
-                <Button
-                  _hover={{ bg: "teal.700" }}
-                  colorScheme="teal.400"
-                  onClick={async () => await supabase.auth.signOut()}
-                >
-                  ログイン中
-                </Button>
-              </>
-            ) : (
-              <Button
-                _hover={{ bg: "teal.700" }}
-                colorScheme="white"
-                onClick={async () => {
-                  const { error } = await supabase.auth.signInWithOAuth({
-                    provider: "google",
-                  });
-                  if (error) console.error("Login Error", error);
-                }}
-              >
-                ログイン
-              </Button>
-            )}
-          </div>
+          <Link to="/Loginpage">
+            <Button colorScheme="white">ログイン</Button>
+          </Link>
         </Flex>
 
         {/* スマホ用ハンバーガー */}
@@ -148,30 +125,9 @@ export const Header = () => {
                 <Link to="/about" onClick={onClose}>
                   <Button colorScheme="teal">サイトについて</Button>
                 </Link>
-                <div>
-                  {user ? (
-                    <>
-                      <Button
-                        _hover={{ bg: "teal.700" }}
-                        colorScheme="teal.400"
-                        onClick={handleLogout}
-                      >
-                        ログイン中
-                      </Button>
-                    </>
-                  ) : (
-                    <Button
-                      _hover={{ bg: "teal.700" }}
-                      colorScheme="teal"
-                      onClick={() => {
-                        handleLogin();
-                        onClose();
-                      }}
-                    >
-                      ログイン
-                    </Button>
-                  )}
-                </div>
+                <Link to="/Loginpage">
+                  <Button colorScheme="white">ログイン</Button>
+                </Link>
               </Flex>
             </DrawerBody>
           </DrawerContent>
@@ -180,3 +136,32 @@ export const Header = () => {
     </Box>
   );
 };
+
+{
+  /* <div>
+            {user ? (
+              <>
+                <Button
+                  _hover={{ bg: "teal.700" }}
+                  colorScheme="teal.400"
+                  onClick={async () => await supabase.auth.signOut()}
+                >
+                  ログイン中
+                </Button>
+              </>
+            ) : (
+              <Button
+                _hover={{ bg: "teal.700" }}
+                colorScheme="white"
+                onClick={async () => {
+                  const { error } = await supabase.auth.signInWithOAuth({
+                    provider: "google",
+                  });
+                  if (error) console.error("Login Error", error);
+                }}
+              >
+                ログイン
+              </Button>
+            )}
+          </div> */
+}
