@@ -14,14 +14,12 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "../lib/supabaseClient";
-import type { User } from "@supabase/supabase-js";
+import { LoginPage } from "../Pages/LoginPage";
 
 export const Header = () => {
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [user, setUser] = useState<User | null>(null);
 
   // スクロールでヘッダーを隠す処理
   useEffect(() => {
@@ -40,35 +38,35 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-    };
-    getUser();
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     const {
+  //       data: { session },
+  //     } = await supabase.auth.getSession();
+  //     setUser(session?.user ?? null);
+  //   };
+  //   getUser();
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
+  //   const {
+  //     data: { subscription },
+  //   } = supabase.auth.onAuthStateChange((_event, session) => {
+  //     setUser(session?.user ?? null);
+  //   });
 
-    return () => subscription.unsubscribe();
-  }, []);
+  //   return () => subscription.unsubscribe();
+  // }, []);
 
-  const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-    });
-    if (error) console.error("Login Error", error);
-  };
+  // const handleLogin = async () => {
+  //   const { error } = await supabase.auth.signInWithOAuth({
+  //     provider: "google",
+  //   });
+  //   if (error) console.error("Login Error", error);
+  // };
 
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) console.log("Logout Error", error);
-  };
+  // const handleLogout = async () => {
+  //   const { error } = await supabase.auth.signOut();
+  //   if (error) console.log("Logout Error", error);
+  // };
 
   return (
     <Box
@@ -85,7 +83,7 @@ export const Header = () => {
       transition="top 0.5s ease"
     >
       <Flex justify="space-between" align="center">
-        {/* サイトタイトル */}
+
         <Heading as="h1" size={{ base: "md", md: "xl" }}>
           <Link to="/">IndieGameSite</Link>
         </Heading>
@@ -98,7 +96,7 @@ export const Header = () => {
           <Link to="/about">
             <Button colorScheme="white">サイトについて</Button>
           </Link>
-          <Link to="/Loginpage">
+          <Link to="/LoginPage">
             <Button colorScheme="white">ログイン</Button>
           </Link>
         </Flex>
@@ -125,8 +123,8 @@ export const Header = () => {
                 <Link to="/about" onClick={onClose}>
                   <Button colorScheme="teal">サイトについて</Button>
                 </Link>
-                <Link to="/Loginpage">
-                  <Button colorScheme="white">ログイン</Button>
+                <Link to="/LoginPage">
+                  <Button colorScheme="teal">ログイン</Button>
                 </Link>
               </Flex>
             </DrawerBody>
