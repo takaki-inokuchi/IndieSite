@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { LoginPage } from "../Pages/LoginPage";
 
 export const Header = () => {
   const [show, setShow] = useState(true);
