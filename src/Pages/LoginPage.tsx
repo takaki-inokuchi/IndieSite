@@ -12,7 +12,7 @@ export const LoginPage = () => {
   return (
     <Flex
       direction="column"
-      minH="100vh"
+      minH="80vh"
       justify="center"
       align="center"
       bg="gray.50"
