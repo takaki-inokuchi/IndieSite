@@ -12,11 +12,16 @@ export const LoginPage = () => {
   return (
     <Flex
       w="100vw"
-      h="100vh"
+      h="90vh"
       justifyContent="center"
       alignItems="center"
       bg="gray.50"
+      direction="column"
     >
+      {/* タイトル */}
+      <Heading as="h1" size="2xl" p={4} color="teal.700" textAlign="center">
+        IndieSite ログイン
+      </Heading>
       <Flex
         w="90%"
         maxW="400px"
@@ -27,11 +32,6 @@ export const LoginPage = () => {
         borderRadius="lg"
         shadow="xl"
       >
-        {/* タイトル */}
-        <Heading as="h1" size="2xl" mb={8} color="teal.700" textAlign="center">
-          IndieSite ログイン
-        </Heading>
-
         {/* 6つのログインボタン */}
         <Grid w="100%" templateColumns="repeat(2, 1fr)" gap={4}>
           <Button

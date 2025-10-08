@@ -122,7 +122,7 @@ export const Header = () => {
                 <Link to="/about" onClick={onClose}>
                   <Button colorScheme="teal">サイトについて</Button>
                 </Link>
-                <Link to="/LoginPage">
+                <Link to="/LoginPage" onClick={onClose}>
                   <Button colorScheme="teal">ログイン</Button>
                 </Link>
               </Flex>
