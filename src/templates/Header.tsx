@@ -97,12 +97,12 @@ export const Header = () => {
                 </Link>
 
                 {user ? (
-                  <Button colorScheme="white" onClick={Logout}>
+                  <Button colorScheme="teal" onClick={Logout}>
                     ログアウト
                   </Button>
                 ) : (
                   <Link to="/LoginPage">
-                    <Button colorScheme="white">ログイン</Button>
+                    <Button colorScheme="teal">ログイン</Button>
                   </Link>
                 )}
 

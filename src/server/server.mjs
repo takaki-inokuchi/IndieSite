@@ -2,7 +2,6 @@ import fs from "fs";
 import axios from "axios";
 import { load } from "cheerio";
 
-// --- 対象URL（タグ492 = Indie） ---
 const POPULAR_URL =
   "https://store.steampowered.com/search/?supportedlang=japanese&os=win&tags=492&page=";
 const NEW_URL =
@@ -18,7 +17,11 @@ function saveJSON(data, path) {
 async function fetchPageAppIDs(baseUrl, page = 1) {
   try {
     const res = await axios.get(baseUrl + page, {
-      headers: { "User-Agent": "Mozilla/5.0" },
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+        "Accept-Language": "ja,en;q=0.9",
+      },
     });
     const $ = load(res.data);
     const appInfos = [];
