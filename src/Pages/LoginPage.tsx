@@ -7,6 +7,7 @@ import {
   FaApple,
   FaEnvelope,
 } from "react-icons/fa";
+import { AllLogin } from "../Auth/signInWithProvider";
 
 export const LoginPage = () => {
   return (
@@ -47,6 +48,7 @@ export const LoginPage = () => {
               bg="#DB4437"
               color="white"
               _hover={{ bg: "#C33D2F" }}
+              onClick={() => AllLogin("google")}
             >
               Google
             </Button>
@@ -55,6 +57,7 @@ export const LoginPage = () => {
               bg="#333333"
               color="white"
               _hover={{ bg: "#242424" }}
+              onClick={() => AllLogin("github")}
             >
               GitHub
             </Button>

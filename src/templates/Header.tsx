@@ -11,13 +11,16 @@ import {
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../provider/UserProvider";
+import { Logout } from "../Auth/signInWithProvider";
 
 export const Header = () => {
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useContext(UserContext);
 
   // スクロールでヘッダーを隠す処理
   useEffect(() => {
@@ -59,9 +62,19 @@ export const Header = () => {
           <Link to="/">
             <Button colorScheme="white">ホーム</Button>
           </Link>
-          <Link to="/LoginPage">
-            <Button colorScheme="white">ログイン</Button>
-          </Link>
+
+          {user ? (
+            <Link to="/">
+              <Button colorScheme="white" onClick={Logout}>
+                ログアウト
+              </Button>
+            </Link>
+          ) : (
+            <Link to="/LoginPage">
+              <Button colorScheme="white">ログイン</Button>
+            </Link>
+          )}
+
           <Link to="/BoardPage">
             <Button colorScheme="white">掲示板</Button>
           </Link>
