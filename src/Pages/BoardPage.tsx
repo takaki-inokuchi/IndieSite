@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Divider,
+  Flex,
   Heading,
   Input,
   Spinner,
@@ -9,8 +10,9 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
+import { UserContext } from "../provider/UserProvider";
 
 type Post = {
   id: number;
@@ -27,6 +29,7 @@ export const BoardPage = () => {
   const [content, setContent] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(UserContext);
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -74,7 +77,7 @@ export const BoardPage = () => {
     setLoading(false);
   };
 
-  return (
+  return user ? (
     <Box w="100vw" minH="100vh" bg="gray.50" p={6}>
       <VStack
         spacing={4}
@@ -89,6 +92,7 @@ export const BoardPage = () => {
           Indie掲示板
         </Heading>
         <Text>🎮Indieゲームの情報や感想を共有しましょう</Text>
+
         <Input
           placeholder="名前"
           value={username}
@@ -135,7 +139,9 @@ export const BoardPage = () => {
                 {post.username}
               </Text>
 
-              <Text fontWeight="bold" color="green">ゲーム名</Text>
+              <Text fontWeight="bold" color="green">
+                ゲーム名
+              </Text>
 
               <Text fontWeight="bold" color="green">
                 {post.gamename}
@@ -148,6 +154,14 @@ export const BoardPage = () => {
           ))
         )}
       </Box>
+    </Box>
+  ) : (
+    <Box minH="400px">
+      <Flex minH="400px" direction="column" justify="center">
+        <Text color="gray.500" textAlign="center">
+          掲示板を使用するにはログインしてください
+        </Text>
+      </Flex>
     </Box>
   );
 };

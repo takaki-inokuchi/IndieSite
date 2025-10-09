@@ -69,7 +69,7 @@ export const Header = () => {
             </Button>
           ) : (
             <Link to="/LoginPage">
-              <Button colorScheme="white">ログイン</Button>
+              <Button colorScheme="white" onClick={onClose}>ログイン</Button>
             </Link>
           )}
 
@@ -93,21 +93,21 @@ export const Header = () => {
             <DrawerBody>
               <Flex direction="column" gap={2} mt={4}>
                 <Link to="/" onClick={onClose}>
-                  <Button colorScheme="teal">ホーム</Button>
+                  <Button colorScheme="teal" width="100%">ホーム</Button>
                 </Link>
 
                 {user ? (
-                  <Button colorScheme="teal" onClick={Logout}>
+                  <Button colorScheme="teal" onClick={Logout} width="100%">
                     ログアウト
                   </Button>
                 ) : (
                   <Link to="/LoginPage">
-                    <Button colorScheme="teal">ログイン</Button>
+                    <Button colorScheme="teal" onClick={onClose} width="100%">ログイン</Button>
                   </Link>
                 )}
 
                 <Link to="/BoardPage" onClick={onClose}>
-                  <Button colorScheme="teal">掲示板</Button>
+                  <Button colorScheme="teal" width="100%">掲示板</Button>
                 </Link>
               </Flex>
             </DrawerBody>
