@@ -28,7 +28,7 @@ export const LoginPage = () => {
         shadow="md"
       >
         <Heading as="h1" size="2xl" p={4} color="teal.700" textAlign="center">
-          IndieSite ログイン
+          IndieSiteログイン
         </Heading>
         <Flex
           w="90%"

@@ -1,4 +1,3 @@
-// src/components/Header.tsx
 import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -37,36 +36,6 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const {
-  //       data: { session },
-  //     } = await supabase.auth.getSession();
-  //     setUser(session?.user ?? null);
-  //   };
-  //   getUser();
-
-  //   const {
-  //     data: { subscription },
-  //   } = supabase.auth.onAuthStateChange((_event, session) => {
-  //     setUser(session?.user ?? null);
-  //   });
-
-  //   return () => subscription.unsubscribe();
-  // }, []);
-
-  // const handleLogin = async () => {
-  //   const { error } = await supabase.auth.signInWithOAuth({
-  //     provider: "google",
-  //   });
-  //   if (error) console.error("Login Error", error);
-  // };
-
-  // const handleLogout = async () => {
-  //   const { error } = await supabase.auth.signOut();
-  //   if (error) console.log("Logout Error", error);
-  // };
-
   return (
     <Box
       bg="teal.600"
@@ -86,7 +55,6 @@ export const Header = () => {
           <Link to="/">IndieGameSite</Link>
         </Heading>
 
-        {/* PC用メニュー */}
         <Flex display={{ base: "none", md: "flex" }} gap={4}>
           <Link to="/">
             <Button colorScheme="white">ホーム</Button>
@@ -94,15 +62,11 @@ export const Header = () => {
           <Link to="/LoginPage">
             <Button colorScheme="white">ログイン</Button>
           </Link>
-          <Link to="/">
-            <Button colorScheme="white">投票</Button>
-          </Link>
           <Link to="/BoardPage">
             <Button colorScheme="white">掲示板</Button>
           </Link>
         </Flex>
 
-        {/* スマホ用ハンバーガー */}
         <IconButton
           color="white"
           bg="transparent"
@@ -112,7 +76,6 @@ export const Header = () => {
           onClick={onOpen}
         />
 
-        {/* Drawer (スマホメニュー) */}
         <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
           <DrawerOverlay />
           <DrawerContent>
@@ -123,9 +86,6 @@ export const Header = () => {
                 </Link>
                 <Link to="/LoginPage" onClick={onClose}>
                   <Button colorScheme="teal">ログイン</Button>
-                </Link>
-                <Link to="/" onClick={onClose}>
-                  <Button colorScheme="teal">投票</Button>
                 </Link>
                 <Link to="/BoardPage" onClick={onClose}>
                   <Button colorScheme="teal">掲示板</Button>
@@ -138,32 +98,3 @@ export const Header = () => {
     </Box>
   );
 };
-
-{
-  /* <div>
-            {user ? (
-              <>
-                <Button
-                  _hover={{ bg: "teal.700" }}
-                  colorScheme="teal.400"
-                  onClick={async () => await supabase.auth.signOut()}
-                >
-                  ログイン中
-                </Button>
-              </>
-            ) : (
-              <Button
-                _hover={{ bg: "teal.700" }}
-                colorScheme="white"
-                onClick={async () => {
-                  const { error } = await supabase.auth.signInWithOAuth({
-                    provider: "google",
-                  });
-                  if (error) console.error("Login Error", error);
-                }}
-              >
-                ログイン
-              </Button>
-            )}
-          </div> */
-}
