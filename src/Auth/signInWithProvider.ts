@@ -1,6 +1,6 @@
 import { supabase } from "../lib/supabaseClient";
 
-type Provider = "google" | "github";
+type Provider = "google" | "github" ;
 
 export const AllLogin = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -26,13 +26,4 @@ export const Logout = async () => {
     window.location.href = "/";
     window.location.reload();
   }
-};
-
-export const EmailLogin = async (email: string) => {
-  const { data, error } = await supabase.auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: "https://indiegame-hub.web.app/" },
-  });
-  if (error) console.log("メールログイン失敗", error);
-  else console.log("メール送信完了", data);
 };

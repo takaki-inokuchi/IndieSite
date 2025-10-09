@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
-import { UserContext } from "../provider/UserProvider";
+import { UserContext } from "../types/UserContextType";
 
 type Post = {
   id: number;

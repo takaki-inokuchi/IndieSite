@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { BoardPage } from "../../Pages/BoardPage";
-import { UserContext } from "../../provider/UserProvider";
+import { UserContext } from "../../types/UserContextType";
 
 jest.mock("../../lib/supabaseClient", () => {
   supabase: {

@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { AllLogin } from "../Auth/signInWithProvider";
 import { useNavigate } from "react-router-dom";
+import { TwitterLogin } from "../Auth/TwitterLogin";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -69,7 +70,6 @@ export const LoginPage = () => {
               color="black"
               _hover={{ bg: "#FFC700" }}
               onClick={() => navigate("/EmailLoginPage")}
-
             >
               メール
             </Button>
@@ -86,6 +86,7 @@ export const LoginPage = () => {
               bg="#1DA1F2"
               color="white"
               _hover={{ bg: "#0d95e8" }}
+              onClick={async () => await TwitterLogin()}
             >
               Twitter
             </Button>

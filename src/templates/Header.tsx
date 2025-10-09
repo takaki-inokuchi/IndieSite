@@ -13,8 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../provider/UserProvider";
 import { Logout } from "../Auth/signInWithProvider";
+import { UserContext } from "../types/UserContextType";
 
 export const Header = () => {
   const [show, setShow] = useState(true);
@@ -55,7 +55,7 @@ export const Header = () => {
     >
       <Flex justify="space-between" align="center">
         <Heading as="h1" size={{ base: "md", md: "xl" }}>
-          <Link to="/">IndieGameSite</Link>
+          <Link to="/">IndieGameSite!</Link>
         </Heading>
 
         <Flex display={{ base: "none", md: "flex" }} gap={4}>
