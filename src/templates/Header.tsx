@@ -64,11 +64,9 @@ export const Header = () => {
           </Link>
 
           {user ? (
-            <Link to="/">
-              <Button colorScheme="white" onClick={Logout}>
-                ログアウト
-              </Button>
-            </Link>
+            <Button colorScheme="white" onClick={Logout}>
+              ログアウト
+            </Button>
           ) : (
             <Link to="/LoginPage">
               <Button colorScheme="white">ログイン</Button>
@@ -97,9 +95,17 @@ export const Header = () => {
                 <Link to="/" onClick={onClose}>
                   <Button colorScheme="teal">ホーム</Button>
                 </Link>
-                <Link to="/LoginPage" onClick={onClose}>
-                  <Button colorScheme="teal">ログイン</Button>
-                </Link>
+
+                {user ? (
+                  <Button colorScheme="white" onClick={Logout}>
+                    ログアウト
+                  </Button>
+                ) : (
+                  <Link to="/LoginPage">
+                    <Button colorScheme="white">ログイン</Button>
+                  </Link>
+                )}
+
                 <Link to="/BoardPage" onClick={onClose}>
                   <Button colorScheme="teal">掲示板</Button>
                 </Link>

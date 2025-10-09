@@ -1,4 +1,4 @@
-import { Flex, Grid, Button, Heading, VStack } from "@chakra-ui/react";
+import { Flex, Grid, Button, Heading, VStack, Text } from "@chakra-ui/react";
 import {
   FaGoogle,
   FaGithub,
@@ -8,8 +8,10 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import { AllLogin } from "../Auth/signInWithProvider";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
   return (
     <Flex
       direction="column"
@@ -66,6 +68,8 @@ export const LoginPage = () => {
               bg="#FFD700"
               color="black"
               _hover={{ bg: "#FFC700" }}
+              onClick={() => navigate("/EmailLoginPage")}
+
             >
               メール
             </Button>
@@ -96,6 +100,9 @@ export const LoginPage = () => {
           </Grid>
         </Flex>
       </VStack>
+      <Text p={3} color="gray.600">
+        新規ユーザーもこちらからログイン！
+      </Text>
     </Flex>
   );
 };
