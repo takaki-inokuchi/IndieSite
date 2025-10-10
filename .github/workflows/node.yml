@@ -1,3 +1,10 @@
+name: Daily Node Script
+
+on:
+  schedule:
+    - cron: '00 16 * * *' # 毎日16時に実行
+  workflow_dispatch:
+
 jobs:
   run-server:
     runs-on: ubuntu-latest
