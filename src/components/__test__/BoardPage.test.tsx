@@ -3,7 +3,6 @@ import { BoardPage } from "../../Pages/BoardPage";
 import { UserContext } from "../../types/UserContextType";
 import type { User } from "@supabase/supabase-js";
 
-// ✅ Supabaseクライアントの完全モック
 jest.mock("../../lib/supabaseClient", () => {
   const mockedPosts = [
     {
@@ -36,8 +35,6 @@ jest.mock("../../lib/supabaseClient", () => {
   };
 });
 
-
-// ✅ モックユーザー
 const mockUser = {
   id: "123",
   email: "test@example.com",
@@ -52,7 +49,7 @@ describe("BoardPage", () => {
     jest.clearAllMocks();
   });
 
-  it("ログインしていない場合、ログインを促すメッセージが表示される", () => {
+  test("ログインしていない場合、ログインを促すメッセージが表示される", () => {
     render(
       <UserContext.Provider value={{ user: null, setUser: jest.fn() }}>
         <BoardPage />
@@ -64,7 +61,7 @@ describe("BoardPage", () => {
     ).toBeInTheDocument();
   });
 
-  it("投稿が表示される", async () => {
+  test("投稿が表示される", async () => {
     render(
       <UserContext.Provider value={{ user: mockUser, setUser: jest.fn() }}>
         <BoardPage />
@@ -76,7 +73,7 @@ describe("BoardPage", () => {
     expect(screen.getByText("これはテスト投稿です。")).toBeInTheDocument();
   });
 
-  it("投稿フォームに入力し、投稿できる", async () => {
+  test("投稿フォームに入力し、投稿できる", async () => {
     render(
       <UserContext.Provider value={{ user: mockUser, setUser: jest.fn() }}>
         <BoardPage />
@@ -103,7 +100,7 @@ describe("BoardPage", () => {
     });
   });
 
-  it("入力が空のときは投稿できない", async () => {
+  test("入力が空のときは投稿できない", async () => {
     render(
       <UserContext.Provider value={{ user: mockUser, setUser: jest.fn() }}>
         <BoardPage />

@@ -2,14 +2,11 @@ import { Flex, Grid, Button, Heading, VStack, Text } from "@chakra-ui/react";
 import {
   FaGoogle,
   FaGithub,
-  FaFacebook,
-  FaTwitter,
   FaApple,
   FaEnvelope,
 } from "react-icons/fa";
 import { AllLogin } from "../Auth/signInWithProvider";
 import { useNavigate } from "react-router-dom";
-import { TwitterLogin } from "../Auth/TwitterLogin";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -31,7 +28,7 @@ export const LoginPage = () => {
         borderRadius="lg"
         shadow="md"
       >
-        <Heading as="h1" size="2xl" p={4} color="teal.700" textAlign="center">
+        <Heading as="h1" size="2xl" p={3} color="teal.700" textAlign="center">
           IndieSiteログイン
         </Heading>
         <Flex
@@ -72,23 +69,6 @@ export const LoginPage = () => {
               onClick={() => navigate("/EmailLoginPage")}
             >
               メール
-            </Button>
-            <Button
-              leftIcon={<FaFacebook />}
-              bg="#1877F2"
-              color="white"
-              _hover={{ bg: "#155DB6" }}
-            >
-              Facebook
-            </Button>
-            <Button
-              leftIcon={<FaTwitter />}
-              bg="#1DA1F2"
-              color="white"
-              _hover={{ bg: "#0d95e8" }}
-              onClick={async () => await TwitterLogin()}
-            >
-              Twitter
             </Button>
             <Button
               leftIcon={<FaApple />}

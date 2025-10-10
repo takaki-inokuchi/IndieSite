@@ -55,7 +55,7 @@ export const Header = () => {
     >
       <Flex justify="space-between" align="center">
         <Heading as="h1" size={{ base: "md", md: "xl" }}>
-          <Link to="/">IndieGameSite!</Link>
+          <Link to="/">IndieGameSite</Link>
         </Heading>
 
         <Flex display={{ base: "none", md: "flex" }} gap={4}>
