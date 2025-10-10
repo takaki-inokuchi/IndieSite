@@ -1,4 +1,4 @@
-import { Flex, Grid, Button, Heading, VStack, Text } from "@chakra-ui/react";
+import { Flex, Button, Heading, VStack, Text } from "@chakra-ui/react";
 import { FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
 import { AllLogin } from "../Auth/signInWithProvider";
 import { useNavigate } from "react-router-dom";
