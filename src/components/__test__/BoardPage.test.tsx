@@ -36,7 +36,6 @@ jest.mock("../../lib/supabaseClient", () => {
   };
 });
 
-import { supabase } from "../../lib/supabaseClient";
 
 // ✅ モックユーザー
 const mockUser = {
