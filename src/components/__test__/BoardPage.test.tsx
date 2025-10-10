@@ -1,42 +1,54 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { supabase } from "../../lib/supabaseClient";
-import { UserContext } from "../../types/UserContextType";
 import { BoardPage } from "../../Pages/BoardPage";
+import { UserContext } from "../../types/UserContextType";
 import type { User } from "@supabase/supabase-js";
 
-const mockedPosts = [
-  {
-    id: 1,
-    username: "テストユーザー",
-    content: "これはテスト投稿です。",
-    gamename: "テストゲーム",
-    created_at: "2023-01-01T00:00:00.000Z",
-  },
-];
+// ✅ Supabaseクライアントの完全モック
+jest.mock("../../lib/supabaseClient", () => {
+  const mockedPosts = [
+    {
+      id: 1,
+      username: "テストユーザー",
+      content: "これはテスト投稿です。",
+      gamename: "テストゲーム",
+      created_at: "2023-01-01T00:00:00.000Z",
+    },
+  ];
 
-jest.mock("../../lib/supabaseClient", () => ({
-  supabase: {
-    from: jest.fn(() => ({
-      select: jest.fn(() => ({
-        order: jest.fn(() => ({
-          then: jest.fn((cb) => cb({ data: mockedPosts, error: null })),
-          catch: jest.fn(),
+  return {
+    supabase: {
+      from: jest.fn(() => ({
+        select: jest.fn(() => ({
+          order: jest.fn(() =>
+            Promise.resolve({
+              data: mockedPosts,
+              error: null,
+            })
+          ),
         })),
+        insert: jest.fn(() =>
+          Promise.resolve({
+            error: null,
+          })
+        ),
       })),
-    })),
-  },
-}));
+    },
+  };
+});
+
+import { supabase } from "../../lib/supabaseClient";
+
+// ✅ モックユーザー
+const mockUser = {
+  id: "123",
+  email: "test@example.com",
+  app_metadata: {},
+  user_metadata: {},
+  aud: "authenticated",
+  created_at: "2023-01-01T00:00:00.000Z",
+} as User;
 
 describe("BoardPage", () => {
-  const mockUser = {
-    id: "123",
-    email: "test@example.com",
-    app_metadata: {},
-    user_metadata: {},
-    aud: "authenticated",
-    created_at: "2023-01-01T00:00:00.000Z",
-  } as User;
-
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -54,26 +66,6 @@ describe("BoardPage", () => {
   });
 
   it("投稿が表示される", async () => {
-    const mockPosts = [
-      {
-        id: 1,
-        username: "テストユーザー",
-        content: "ゲームの感想",
-        gamename: "Indie Game 1",
-        created_at: new Date().toISOString(),
-      },
-    ];
-
-    (supabase.from as jest.Mock).mockReturnValueOnce({
-      select: jest.fn().mockReturnValueOnce({
-        order: jest.fn().mockReturnValueOnce({
-          select: jest
-            .fn()
-            .mockResolvedValueOnce({ data: mockPosts, error: null }),
-        }),
-      }),
-    });
-
     render(
       <UserContext.Provider value={{ user: mockUser, setUser: jest.fn() }}>
         <BoardPage />
@@ -81,21 +73,13 @@ describe("BoardPage", () => {
     );
 
     expect(await screen.findByText("テストユーザー")).toBeInTheDocument();
-    expect(screen.getByText("Indie Game 1")).toBeInTheDocument();
-    expect(screen.getByText("ゲームの感想")).toBeInTheDocument();
+    expect(screen.getByText("テストゲーム")).toBeInTheDocument();
+    expect(screen.getByText("これはテスト投稿です。")).toBeInTheDocument();
   });
 
   it("投稿フォームに入力し、投稿できる", async () => {
-    (supabase.from as jest.Mock).mockReturnValue({
-      insert: jest.fn().mockResolvedValueOnce({ error: null }),
-      select: jest.fn().mockResolvedValueOnce({ data: [], error: null }),
-      order: jest.fn().mockReturnValue({
-        select: jest.fn().mockResolvedValueOnce({ data: [], error: null }),
-      }),
-    });
-
     render(
-      <UserContext.Provider value={{ user: null, setUser: jest.fn() }}>
+      <UserContext.Provider value={{ user: mockUser, setUser: jest.fn() }}>
         <BoardPage />
       </UserContext.Provider>
     );
@@ -122,7 +106,7 @@ describe("BoardPage", () => {
 
   it("入力が空のときは投稿できない", async () => {
     render(
-      <UserContext.Provider value={{ user: null, setUser: jest.fn() }}>
+      <UserContext.Provider value={{ user: mockUser, setUser: jest.fn() }}>
         <BoardPage />
       </UserContext.Provider>
     );
