@@ -1,10 +1,5 @@
 import { Flex, Grid, Button, Heading, VStack, Text } from "@chakra-ui/react";
-import {
-  FaGoogle,
-  FaGithub,
-  FaApple,
-  FaEnvelope,
-} from "react-icons/fa";
+import { FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
 import { AllLogin } from "../Auth/signInWithProvider";
 import { useNavigate } from "react-router-dom";
 
@@ -42,7 +37,7 @@ export const LoginPage = () => {
           borderRadius="lg"
           shadow="xl"
         >
-          <Grid w="100%" templateColumns="repeat(2, 1fr)" gap={4}>
+          <VStack w="70%" spacing={4} align="stretch">
             <Button
               leftIcon={<FaGoogle />}
               bg="#DB4437"
@@ -70,15 +65,7 @@ export const LoginPage = () => {
             >
               メール
             </Button>
-            <Button
-              leftIcon={<FaApple />}
-              bg="black"
-              color="white"
-              _hover={{ bg: "#333333" }}
-            >
-              Apple
-            </Button>
-          </Grid>
+          </VStack>
         </Flex>
       </VStack>
       <Text p={3} color="gray.600">
