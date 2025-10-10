@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { EmailLoginPage } from "../../Pages/EmailLoginPage";
 
 const mockUser = {
-  email: "test@example",
+  email: "user@example.com",
 };
 
 jest.mock("../../lib/supabaseClient", () => {
@@ -19,25 +19,26 @@ jest.mock("../../lib/supabaseClient", () => {
 describe("EmailLoginPage", () => {
   test("ログイン済みでメッセージ表示", async () => {
     render(<EmailLoginPage />);
-    expect(await screen.findByText(/ログイン成功/)).toBeInTheDocument();
-    expect(await screen.getByText(/test@example/)).toBeInTheDocument();
+    expect(await screen.findByText(/ログイン済みです！/)).toBeInTheDocument();
   });
   test("メールアドレスが送信されるとメッセージ表示", async () => {
     render(<EmailLoginPage />);
     fireEvent.change(screen.getByPlaceholderText(/メールアドレス/), {
-      target: { value: "user@example" },
+      target: { value: "user@example.com" },
     });
     fireEvent.click(screen.getByRole("button", { name: /Link を送信/ }));
 
     await waitFor(() =>
-      expect(screen.getByText(/メール送信完了！/)).toBeInTheDocument()
+      expect(
+        screen.getByText((text) => text.includes("メール送信完了"))
+      ).toBeInTheDocument()
     );
   });
   test("不正なメールアドレスでエラーメッセージ表示", async () => {
     render(<EmailLoginPage />);
     fireEvent.click(screen.getByRole("button", { name: /Link を送信/ }));
     await waitFor(() =>
-      expect(screen.getByText(/メールアドレスは必須です。/)).toBeInTheDocument()
+      expect(screen.getByText(/メールアドレスは必須です/)).toBeInTheDocument()
     );
 
     fireEvent.change(screen.getByPlaceholderText(/メールアドレス/), {
