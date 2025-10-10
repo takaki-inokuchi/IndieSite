@@ -4,30 +4,38 @@ import { UserContext } from "../../types/UserContextType";
 import { BoardPage } from "../../Pages/BoardPage";
 import type { User } from "@supabase/supabase-js";
 
-// Supabaseのモック
+const mockedData = [
+  {
+    id: 1,
+    username: "test",
+    content: "hello",
+    created_at: "2023-01-01",
+    gamename: "game",
+  },
+];
+
 jest.mock("../../lib/supabaseClient", () => ({
   supabase: {
     from: jest.fn(() => ({
-      select: jest.fn(),
-      insert: jest.fn(),
-      order: jest.fn(() => ({
-        select: jest.fn(),
+      select: jest.fn(() => ({
+        order: jest.fn(() => ({
+          then: jest.fn((cb) => cb({ data: mockedData, error: null })),
+          catch: jest.fn(),
+        })),
       })),
     })),
   },
 }));
 
-
-
 describe("BoardPage", () => {
   const mockUser = {
-  id: "123",
-  email: "test@example.com",
-  app_metadata: {},
-  user_metadata: {},
-  aud: "authenticated",
-  created_at: "2023-01-01T00:00:00.000Z",
-} as User;
+    id: "123",
+    email: "test@example.com",
+    app_metadata: {},
+    user_metadata: {},
+    aud: "authenticated",
+    created_at: "2023-01-01T00:00:00.000Z",
+  } as User;
 
   afterEach(() => {
     jest.clearAllMocks();
