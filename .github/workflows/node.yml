@@ -21,6 +21,25 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: run Node server
         run: node src/server/server.mjs
+
+      - name: Copy dist
+        run: |
+          mkdir -p dist
+          cp -r public/* dist/
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_KEY }}"
+          projectId: "indiegame-hub"
+          channelId: "live"
