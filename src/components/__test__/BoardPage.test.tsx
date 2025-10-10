@@ -5,7 +5,7 @@ import { BoardPage } from "../../Pages/BoardPage";
 import type { User } from "@supabase/supabase-js";
 
 // Supabaseのモック
-jest.mock("../lib/supabaseClient", () => ({
+jest.mock("../../lib/supabaseClient", () => ({
   supabase: {
     from: jest.fn(() => ({
       select: jest.fn(),
