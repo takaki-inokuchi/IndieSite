@@ -39,7 +39,7 @@ export const GameCard: React.FC<Props> = ({ game, rank }) => {
             borderRadius="md"
             fontSize="sm"
           >
-            #{rank}位
+            #{rank}
           </Box>
         </Box>
         <Heading as="h3" size="md" mb={2}>
