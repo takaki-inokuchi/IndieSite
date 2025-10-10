@@ -18,7 +18,7 @@ describe("GameCardコンポーネント", () => {
     render(<GameCard game={mockGame} rank={1} />);
 
     expect(
-      screen.getByText((content) => content.replace(/\s/g, "").includes("1"))
+      screen.getByText((content) => content.replace(/\s/g, "").includes("1位"))
     ).toBeInTheDocument();
 
     expect(
