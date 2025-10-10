@@ -1,19 +1,11 @@
-name : Daily Node Script
-
-on:
-  schedule:
-  - cron: '00 16 * * *' # 分 時 日 月 曜日 ←　毎日設定
-  workflow_dispatch:
-
 jobs:
   run-server:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -25,15 +17,10 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
-      - name: run Node server
+      - name: Run Node server to update public/
         run: node src/server/server.mjs
 
-      - name: Copy dist
-        run: |
-          mkdir -p dist
-          cp -r public/* dist/
-
-      - name: Build
+      - name: Build project (public -> dist)
         run: npm run build
 
       - name: Deploy to Firebase Hosting
