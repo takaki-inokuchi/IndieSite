@@ -18,7 +18,7 @@ IndieGame Hubは、インディーズゲームを紹介・共有するウェブ�
 本番サイト: [https://indiegame-hub.web.app/](https://indiegame-hub.web.app/)
 
 ## 主な機能
-- インディーズゲームのランキング毎日更新
+- インディーズゲームのランキング毎日自動更新
 - ゲーム一覧の表示 (人気順・新規順)
 - supabaseによるログイン機能
 - Firebase Firebase Hosting での公開
